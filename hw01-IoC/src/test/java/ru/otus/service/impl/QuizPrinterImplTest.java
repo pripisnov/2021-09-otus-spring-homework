@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Тест класса QuizPrinterImpl")
 class QuizPrinterImplTest {
     private final static String OUTPUT_STRING =
-            "Все вопросы теста:Вопрос №1 из категории \"Java основы\": Кто придумал Java?";
+            "All questions by quiz:Question №1 by category \"Java core\": Who is the Java creator?";
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
@@ -27,7 +27,7 @@ class QuizPrinterImplTest {
     @DisplayName("Тест печати всех вопросов в консоль")
     @Test
     void printAll() {
-        final var question = new Question("Кто придумал Java", QuestionCategory.JAVA_CORE);
+        final var question = new Question("Who is the Java creator", QuestionCategory.JAVA_CORE);
         new QuizPrinterImpl().printAll(Collections.singletonList(question));
         assertEquals(
                 output.toString().replace("\n", "").replace("\r", ""),

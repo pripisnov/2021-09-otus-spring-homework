@@ -9,10 +9,10 @@ import java.util.List;
 public class QuizPrinterImpl implements QuizPrinter {
     @Override
     public void printAll(@NonNull List<Question> questions) {
-        System.out.println("\nВсе вопросы теста:");
+        System.out.println("\nAll questions by quiz:");
         for(int i = 0; i < questions.size(); ++i) {
             System.out.printf(
-                    "Вопрос №%s из категории \"%s\": %s?\n",
+                    "Question №%s by category \"%s\": %s?\n",
                     i + 1,
                     questions.get(i).getCategory().getFriendlyName(),
                     questions.get(i).getBody()

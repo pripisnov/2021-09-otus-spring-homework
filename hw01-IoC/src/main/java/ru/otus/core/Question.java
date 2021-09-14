@@ -13,11 +13,11 @@ public class Question {
     public Question(@NonNull String body, @NonNull QuestionCategory category) {
         Preconditions.checkArgument(
                 StringUtils.isNoneEmpty(body),
-                "Тело вопроса не может быть null или пустым"
+                "Question body should be not empty"
         );
         Preconditions.checkNotNull(
                 category,
-                "Категория вопроса не может быть null"
+                "Category should be not null"
         );
         this.body = body;
         this.category = category;

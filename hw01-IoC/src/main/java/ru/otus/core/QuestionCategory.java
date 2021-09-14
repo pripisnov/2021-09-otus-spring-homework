@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public enum QuestionCategory {
-    COMPUTER_SCIENCE("Информатика"),
-    JAVA_CORE("Java основы")
+    COMPUTER_SCIENCE("Computer science"),
+    JAVA_CORE("Java core")
     ;
 
     private final String friendlyName;
@@ -22,7 +22,7 @@ public enum QuestionCategory {
 
     public static QuestionCategory parseName(String name) {
         return Arrays.stream(values()).filter(v -> Objects.equals(v.name(), name)).findFirst().orElseThrow(
-                () -> new QuizRuntimeException("Отсутствует категория вопроса с именем " + name)
+                () -> new QuizRuntimeException("Not found question by " + name)
         );
     }
 }

@@ -29,7 +29,7 @@ public class QuestionReaderImpl implements QuestionReader {
                     line ->  questions.add(QuestionMapper.toQuestion(line))
             );
         } catch (Exception ex) {
-            throw new QuizRuntimeException("Невозможно прочитать ресурс при парсинге вопросов", ex);
+            throw new QuizRuntimeException("Non read resource", ex);
         }
         return questions;
     }

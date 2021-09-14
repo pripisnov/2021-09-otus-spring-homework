@@ -12,13 +12,13 @@ public class QuestionMapper {
     public static Question toQuestion(final String row) {
         Preconditions.checkArgument(
                 StringUtils.isNoneBlank(row),
-                "Строка для парсинга Question не должна быть null или пустой"
+                "String should be not blank"
         );
 
         String[] fields = row.split(QuizProperty.DELIMITER);
 
         if(fields.length != QuizProperty.FIELD_COUNT) {
-            throw new QuizRuntimeException("Переданная строка не соответствует формату");
+            throw new QuizRuntimeException("Not formatted string");
         }
 
         final String body = fields[0];
