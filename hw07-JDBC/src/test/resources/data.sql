@@ -1,0 +1,1 @@
+insert into books values (1, 'Песнь льда и Пламени', 2, 2);
