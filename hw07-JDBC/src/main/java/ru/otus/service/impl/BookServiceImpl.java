@@ -4,7 +4,6 @@ import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 import ru.otus.dao.AuthorDAO;
 import ru.otus.dao.BookDAO;
 import ru.otus.dao.GenreDAO;
@@ -14,9 +13,9 @@ import ru.otus.service.BookService;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
     private final BookDAO bookDAO;
     private final AuthorDAO authorDAO;
@@ -29,20 +28,19 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> find(String name) {
-        final var books = bookDAO.findByName(name);
-        if (CollectionUtils.isEmpty(books)) {
-            throw new NotFoundException("не найдены книги с именем " + name);
-        }
-        return books;
+    @Transactional(readOnly = true)
+    public List<Book> findByName(String name) {
+        return bookDAO.findByName(name);
     }
 
     @Override
-    public Book find(long id) {
-        return bookDAO.findById(id).orElseThrow(() -> new NotFoundException("не найдена книга с id " + id));
+    @Transactional(readOnly = true)
+    public Optional<Book> findById(long id) {
+        return bookDAO.findById(id);
     }
 
     @Override
+    @Transactional
     public Book create(String name, String authorName, String genreName) {
         Preconditions.checkArgument(
                 StringUtils.isNoneEmpty(name),
@@ -72,6 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public Book update(long id, String name, String authorName, String genreName) {
         Preconditions.checkArgument(
                 StringUtils.isNoneEmpty(name),
@@ -102,6 +101,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional
     public void delete(long id) {
         bookDAO.delete(id);
     }

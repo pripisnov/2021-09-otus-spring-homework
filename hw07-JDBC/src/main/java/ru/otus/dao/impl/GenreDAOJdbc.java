@@ -12,20 +12,21 @@ import java.util.Map;
 import java.util.Optional;
 
 @Component
-public class GenreDAOImpl implements GenreDAO {
-    private static final String FIND_BY_NAME =
-            "select * from genres where genre_name = :name";
+public class GenreDAOJdbc implements GenreDAO {
 
     private final NamedParameterJdbcOperations namedParameterJdbcOperations;
     private final GenreRowMapper genreRowMapper;
 
-    public GenreDAOImpl(NamedParameterJdbcOperations namedParameterJdbcOperations, GenreRowMapper genreRowMapper) {
+    public GenreDAOJdbc(NamedParameterJdbcOperations namedParameterJdbcOperations, GenreRowMapper genreRowMapper) {
         this.namedParameterJdbcOperations = namedParameterJdbcOperations;
         this.genreRowMapper = genreRowMapper;
     }
 
     @Override
     public Optional<Genre> findByName(String name) {
+        String FIND_BY_NAME =
+                "select genre_id, genre_name from genres where genre_name = :name";
+
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
         final var genres = namedParameterJdbcOperations.query(FIND_BY_NAME, params, genreRowMapper);

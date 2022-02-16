@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Dao для работы с книгами")
 @JdbcTest
-@Import({BookDAOImpl.class, BookRowMapper.class, AuthorRowMapper.class, GenreRowMapper.class})
+@Import({BookDAOJdbc.class, BookRowMapper.class, AuthorRowMapper.class, GenreRowMapper.class})
 class BookDAOImplTest {
     private static final long ID = 1;
     private static final String NAME = "Песнь льда и Пламени";
@@ -26,7 +26,7 @@ class BookDAOImplTest {
     private static final Book TEST_BOOK = new Book(ID, NAME, AUTHOR, GENRE);
 
     @Autowired
-    private BookDAOImpl bookDAO;
+    private BookDAOJdbc bookDAO;
 
 
     @DisplayName("Поиск по ID")

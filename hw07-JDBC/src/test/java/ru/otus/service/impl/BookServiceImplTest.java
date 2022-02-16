@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import ru.otus.dao.AuthorDAO;
 import ru.otus.dao.BookDAO;
 import ru.otus.dao.GenreDAO;
@@ -18,7 +17,6 @@ import ru.otus.exception.NotFoundException;
 import ru.otus.service.BookService;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,27 +61,15 @@ class BookServiceImplTest {
     @DisplayName("Поиск книги по имени (успех)")
     @Test
     void findByName_Success() {
-        final var books = bookService.find(TEST_BOOK.getName());
+        final var books = bookService.findByName(TEST_BOOK.getName());
         assertThat(books).usingRecursiveComparison().isEqualTo(Collections.singletonList(TEST_BOOK));
-    }
-
-    @DisplayName("Поиск книги по имени (исключение)")
-    @Test
-    void findByName_Fail() {
-        assertThatThrownBy(() -> bookService.find("")).isInstanceOf(NotFoundException.class);
     }
 
     @DisplayName("Поиск книги по ID (успех)")
     @Test
     void findById_Success() {
-        final var book = bookService.find(TEST_BOOK.getId());
+        final var book = bookService.findById(TEST_BOOK.getId()).orElseThrow();
         assertThat(book).usingRecursiveComparison().isEqualTo(TEST_BOOK);
-    }
-
-    @DisplayName("Поиск книги по ID (исключение)")
-    @Test
-    void findById_Fail() {
-        assertThatThrownBy(() -> bookService.find(10)).isInstanceOf(NotFoundException.class);
     }
 
     @DisplayName("Создание книги (успех)")
