@@ -11,6 +11,7 @@
     <modules>
         <module>hw01-IoC</module>
         <module>hw07-JDBC</module>
+        <module>hw09-JPA</module>
     </modules>
 
     <properties>
