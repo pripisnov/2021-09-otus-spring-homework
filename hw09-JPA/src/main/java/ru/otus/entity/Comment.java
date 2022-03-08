@@ -4,17 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
-/*
-    comment_id bigserial,
-    comment_title varchar(100),
-    comment_body varchar(4000),
-    user_name varchar(255),
-    book_id bigint references books(book_id) on delete cascade,
-    primary key (comment_id)
- */
 
 @Data
 @Builder
@@ -37,6 +31,8 @@ public class Comment {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "book_id")
-    private long book;
+    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
 }

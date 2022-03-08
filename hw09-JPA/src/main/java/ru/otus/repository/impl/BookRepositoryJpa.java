@@ -57,4 +57,13 @@ public class BookRepositoryJpa implements BookRepository {
         query.setParameter("id", id);
         query.executeUpdate();
     }
+
+    @Override
+    public List<Book> findAll() {
+        TypedQuery<Book> query = entityManager.createQuery(
+                "select b from Book b",
+                Book.class
+        );
+        return query.getResultList();
+    }
 }

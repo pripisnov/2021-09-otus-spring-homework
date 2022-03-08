@@ -1,7 +1,7 @@
 package ru.otus.repository.impl;
 
-import com.google.common.collect.Sets;
 import lombok.val;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +10,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import ru.otus.entity.Author;
 import ru.otus.entity.Book;
-import ru.otus.entity.Comment;
 import ru.otus.entity.Genre;
 
 import javax.persistence.TypedQuery;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,13 +22,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BookRepositoryJpaTest {
 
     private static final long BOOK_ID = 1L;
-    private static final long NEW_BOOK_ID = BOOK_ID + 1;
+    private static final int BOOK_COUNT = 2;
+    private static final long NEW_BOOK_ID = BOOK_COUNT + 1;
     private static final String BOOK_NAME = "Песнь льда и Пламени";
     private static final Author AUTHOR = new Author(2, "Дж.Дж. Мартин");
     private static final Genre GENRE = new Genre(2, "Фэнтези");
-    private static final Set<Comment> COMMENTS = Sets.newHashSet(
-            new Comment(1, "Титул", "Тело коммента", "юзер", 1)
-    );
 
     @Autowired
     private BookRepositoryJpa bookRepositoryJpa;
@@ -65,7 +61,7 @@ class BookRepositoryJpaTest {
     @DisplayName("Создание книги")
     @Test
     void create() {
-        val newBook = new Book(0, "Игра Престолов", AUTHOR, GENRE, COMMENTS);
+        val newBook = new Book(0, "Игра Престолов", AUTHOR, GENRE);
 
         bookRepositoryJpa.create(newBook);
 
@@ -77,7 +73,7 @@ class BookRepositoryJpaTest {
     @Test
     void update() {
         String newName = "Игра Престолов";
-        val newBook = new Book(BOOK_ID, newName, AUTHOR, GENRE, COMMENTS);
+        val newBook = new Book(BOOK_ID, newName, AUTHOR, GENRE);
 
         assertThat(testEntityManager.find(Book.class, BOOK_ID)).usingRecursiveComparison().isNotEqualTo(newBook);
 
@@ -100,5 +96,15 @@ class BookRepositoryJpaTest {
         testEntityManager.getEntityManager().clear();
 
         assertThat(testEntityManager.find(Book.class, BOOK_ID)).isNull();
+    }
+
+    @DisplayName("Найти все книги")
+    @Test
+    void findAll() {
+        val books = bookRepositoryJpa.findAll();
+        assertThat(books).isNotNull().hasSize(BOOK_COUNT)
+                .allMatch(b -> StringUtils.isNoneEmpty(b.getName()))
+                .allMatch(b -> b.getAuthor() != null)
+                .allMatch(b -> b.getGenre() != null);
     }
 }

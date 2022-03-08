@@ -1,6 +1,5 @@
 package ru.otus.service.impl;
 
-import com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import ru.otus.entity.Author;
 import ru.otus.entity.Book;
-import ru.otus.entity.Comment;
 import ru.otus.entity.Genre;
 import ru.otus.exception.NotFoundException;
 import ru.otus.repository.impl.AuthorRepositoryJpa;
@@ -20,7 +18,6 @@ import ru.otus.service.BookService;
 
 import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -33,12 +30,8 @@ class BookServiceImplTest {
     private static final String NEW_NAME = "Игра Престолов";
     private static final Author AUTHOR = new Author(2, "Дж.Дж. Мартин");
     private static final Genre GENRE = new Genre(2, "Фэнтези");
-    private static final Set<Comment> COMMENTS = Sets.newHashSet(
-            new Comment(1, "Титул", "Тело коммента", "юзер", 1)
-    );
-    private static final Book TEST_BOOK = new Book(ID, NAME, AUTHOR, GENRE, COMMENTS);
-
-    private static final Book NEW_TEST_BOOK = new Book(ID, NEW_NAME, AUTHOR, GENRE, COMMENTS);
+    private static final Book TEST_BOOK = new Book(ID, NAME, AUTHOR, GENRE);
+    private static final Book NEW_TEST_BOOK = new Book(ID, NEW_NAME, AUTHOR, GENRE);
 
     @MockBean
     private BookRepositoryJpa bookRepositoryJpa;

@@ -48,6 +48,19 @@ public class UserCommand {
     }
 
     /**
+     * Для поиска всех книг в консоли используем следующую запись:
+     * <p>find-all</p>
+     */
+    @ShellMethod(value = "Найти все книги", key = "find-all")
+    public String find() {
+        final var books = bookService.findAll();
+        if (CollectionUtils.isEmpty(books)) {
+            return ERROR_MESSAGE_PREFIX + "книги отсутствуют";
+        }
+        return books.toString();
+    }
+
+    /**
      * Для создания книги в консоли используем следующую запись:
      * <p>create 'Сказка о рыбаке и рыбке' 'А.С. Пушкин' 'Сказка'</p>
      * Предполагаем, что у нас один автор и один жанр у книги
@@ -122,6 +135,19 @@ public class UserCommand {
         try {
             commentService.deleteById(id);
             return DONE_MESSAGE;
+        } catch (Exception ex) {
+            return ERROR_MESSAGE_PREFIX + ex.getMessage();
+        }
+    }
+
+    /**
+     * Для поиска комментариев по книге в консоли используем следующую запись (если book_id=1):
+     * <p>find-comments-by-book 1</p>
+     */
+    @ShellMethod(value = "Поиск комментариев по книге", key = "find-comments-by-book")
+    public String findCommentsByBook(long book) {
+        try {
+            return String.valueOf(commentService.findByBookId(book));
         } catch (Exception ex) {
             return ERROR_MESSAGE_PREFIX + ex.getMessage();
         }

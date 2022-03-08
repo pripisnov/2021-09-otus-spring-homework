@@ -40,6 +40,11 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public List<Book> findAll() {
+        return bookRepository.findAll();
+    }
+
+    @Override
     @Transactional
     public Book create(String name, String authorName, String genreName) {
         Preconditions.checkArgument(

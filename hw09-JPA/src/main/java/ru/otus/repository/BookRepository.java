@@ -11,4 +11,5 @@ public interface BookRepository {
     Optional<Book> findById(long id);
     Book update(Book book);
     void deleteById(long id);
+    List<Book> findAll();
 }

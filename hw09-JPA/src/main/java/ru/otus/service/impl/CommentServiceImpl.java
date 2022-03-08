@@ -8,6 +8,8 @@ import ru.otus.repository.CommentRepository;
 import ru.otus.service.BookService;
 import ru.otus.service.CommentService;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
@@ -29,10 +31,15 @@ public class CommentServiceImpl implements CommentService {
                 .commentTitle(title)
                 .commentBody(body)
                 .userName(user)
-                .book(targetBook.getId())
+                .book(targetBook)
                 .build();
 
         return commentRepository.create(comment);
+    }
+
+    @Override
+    public List<Comment> findByBookId(long bookId) {
+        return commentRepository.findByBookId(bookId);
     }
 
     @Transactional

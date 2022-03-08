@@ -1,7 +1,7 @@
 package ru.otus.service.impl;
 
-import com.google.common.collect.Sets;
 import lombok.val;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,8 +18,8 @@ import ru.otus.repository.CommentRepository;
 import ru.otus.service.BookService;
 import ru.otus.service.CommentService;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -31,10 +31,10 @@ class CommentServiceImplTest {
     private static final String NAME = "Песнь льда и Пламени";
     private static final Author AUTHOR = new Author(2, "Дж.Дж. Мартин");
     private static final Genre GENRE = new Genre(2, "Фэнтези");
+    private static final Book TEST_BOOK = new Book(1, NAME, AUTHOR, GENRE);
     private static final Comment COMMENT =
-            new Comment(1, "Титул", "Тело коммента", "юзер", 1);
-    private static final Set<Comment> COMMENTS = Sets.newHashSet(COMMENT);
-    private static final Book TEST_BOOK = new Book(ID, NAME, AUTHOR, GENRE, COMMENTS);
+            new Comment(1, "Титул", "Тело коммента", "юзер", TEST_BOOK);
+    private static final List<Comment> COMMENTS = Lists.newArrayList(COMMENT);
 
     @MockBean
     private BookService bookService;
@@ -51,6 +51,8 @@ class CommentServiceImplTest {
                 .thenReturn(Optional.of(TEST_BOOK));
         Mockito.when(commentRepository.create(Mockito.any(Comment.class)))
                 .thenReturn(COMMENT);
+        Mockito.when(commentRepository.findByBookId(TEST_BOOK.getId()))
+                .thenReturn(COMMENTS);
     }
 
     @DisplayName("Создание комментария (успех)")
@@ -69,5 +71,13 @@ class CommentServiceImplTest {
         assertThatThrownBy(() ->
                 commentService.create(ID, COMMENT.getCommentTitle(), COMMENT.getCommentBody(), COMMENT.getUserName()))
                 .isInstanceOf(NotFoundException.class);
+    }
+
+    @DisplayName("Найти комментарии по книге")
+    @Test
+    void find_Success() {
+        val comments =
+                commentService.findByBookId(ID);
+        assertThat(comments).usingRecursiveComparison().isEqualTo(COMMENTS);
     }
 }

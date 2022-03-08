@@ -1,13 +1,14 @@
 package ru.otus.repository.impl;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.entity.Comment;
 import ru.otus.repository.CommentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 public class CommentRepositoryJpa implements CommentRepository {
@@ -23,6 +24,16 @@ public class CommentRepositoryJpa implements CommentRepository {
     public Comment create(Comment comment) {
         entityManager.persist(comment);
         return comment;
+    }
+
+    @Override
+    public List<Comment> findByBookId(long bookId) {
+        TypedQuery<Comment> query = entityManager.createQuery(
+                "select c from Comment c where c.book.id = :bookId",
+                Comment.class
+        );
+        query.setParameter("bookId", bookId);
+        return query.getResultList();
     }
 
     @Override
