@@ -13,6 +13,7 @@
         <module>hw07-JDBC</module>
         <module>hw09-JPA</module>
         <module>hw11-spring-data</module>
+        <module>hw16_mvc_view</module>
     </modules>
 
     <properties>
