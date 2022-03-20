@@ -16,8 +16,6 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/comments")
 public class CommentRestController {
-    private static final String ERROR_MESSAGE_PREFIX = "Ошибка при выполнении: ";
-
     private final CommentService commentService;
 
     public CommentRestController(CommentService commentService) {

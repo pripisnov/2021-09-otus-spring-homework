@@ -15,8 +15,6 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/books")
 public class BookRestController {
-    private static final String ERROR_MESSAGE_PREFIX = "Ошибка при выполнении: ";
-
     private final BookService bookService;
 
     public BookRestController(BookService bookService) {
