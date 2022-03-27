@@ -15,6 +15,7 @@
         <module>hw11-spring-data</module>
         <module>hw16_mvc_view</module>
         <module>hw17_mvc_ajax</module>
+        <module>hw23_security_auth</module>
     </modules>
 
     <properties>
